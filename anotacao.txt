@@ -1,0 +1,19 @@
+// REST API LOJA VIRTUAL
+
+Os produtos que a gente tem disponiveis
+
+//GET
+- GET /produtos
+- GET /produtos/identificadorDeProduto
+
+
+-Identificador da camiseta é 123456
+- GET /produtos/123456
+- Retorna o produto, a camiseta do hulk
+
+
+//POST
+- POST /produtos
+- Criar novo produto
+- Sempre que tivermos uma requisição post, vamos esperar por corpo de requisição
+- req.body
