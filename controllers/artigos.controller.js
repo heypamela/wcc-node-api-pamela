@@ -19,3 +19,16 @@ exports.create = (req, res) =>{
         res.status(500).sen("Ocorreu um erro ao salvar o artigo");
         })
 };
+
+
+exports.findAll = (req, res) =>{
+    let list = {}
+
+    tbArtigos.findAll().then(function(data){
+        res.send(data)
+    }).catch((error) => { 
+        console.log(error);
+        res.status(500).sen("Ocorreu um erro ao salvar o artigo");
+        });
+}
+    
