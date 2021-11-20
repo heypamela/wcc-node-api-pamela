@@ -22,13 +22,43 @@ exports.create = (req, res) =>{
 
 
 exports.findAll = (req, res) =>{
-    let list = {}
-
     tbArtigos.findAll().then(function(data){
         res.send(data)
     }).catch((error) => { 
         console.log(error);
-        res.status(500).sen("Ocorreu um erro ao salvar o artigo");
+        res.status(500).send("Ocorreu um erro ao salvar o artigo");
         });
 }
-    
+
+exports.findByPk = (req, res) =>{
+    tbArtigos.findByPk(req.params.id).then(function (id){
+        if(id){
+            res.send(id);
+        } else{
+            res.status(404).send({message: `Não foi possível encontrar artigo com o id= ${id}`});
+        }
+    }).catch(function(){
+        res.status(500).send({
+            message: `Erro obtendo artigo id=${id}`
+        });
+    });
+}
+
+
+exports.findOne = (req, res) =>{
+    const tituloArtigo = req.query.titulo
+    tbArtigos.findOne({where:{titulo: tituloArtigo }}).then(function (data) {
+        if (data) {
+         res.send(data);
+      } else {
+         res.status(404).send({
+            message: `Não foi possível encontrar um artigo.`
+           });
+      }
+    }).catch(function () {
+            res.status(500).send({
+                message: "Erro obtendo artigo"
+            });
+    });
+}
+
