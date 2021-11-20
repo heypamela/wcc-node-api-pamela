@@ -6,10 +6,13 @@ module.exports = (sequelizeDataBase, Sequelize) => {
             type: Sequelize.STRING
         },
         descricao: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            defaultValue: "Em desenvolvimento..."
         },
         publicado: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     });
 
