@@ -34,7 +34,18 @@ exports.findAll = (req, res) =>{
         console.log(error);
         res.status(500).send("Ocorreu um erro ao salvar o artigo");
         });
+
+    
 }
+
+exports.findAllAtivos = (req, res) =>{
+    tbArtigos.findAll({where:{publicado:true}}).then(data =>{
+        res.send(data);
+    }). catch(err=>{
+        res.status(500).send({ message: "Ocorreu um erro ao encontrar os artigos ativos"})
+    });
+}
+
 
 exports.findByPk = (req, res) =>{
     const {id:idArtigo} = req.params;
@@ -79,3 +90,38 @@ exports.findOne = (req, res) =>{
     });
 }
 
+exports.updateArtigo = (req, res) =>{
+    const {id:idArtigo} = req.params;
+    const updates = req.body;
+    const query = { where: {id: idArtigo}, returning: true}
+
+    tbArtigos.update(updates, query).then(function(data){
+        const linhasAtualizadas = data[0];
+        if(linhasAtualizadas===0){
+            res.status(404).send({ message: `Não foi encontrado nenhum registro para ser atualizado a partir do id ${idArtigo}`});
+            
+        } else{
+            const artigoAtualizados = data[1];
+            res.send(artigoAtualizados);
+        }
+    }).catch(function(){
+        res.status(500).send({ message: "Erro obtendo atualização do artigo"});
+    });
+}
+
+exports.deleteAll = (req, res) =>{
+    tbArtigos.destroy({where: {}, trucate:false}).then(function(itemsDeletados){
+        res.send("Foram deletados "+ itemsDeletados + " artigos")
+    }).catch(function(error){
+        res.status(500).send("Ocorreu um erro ao deletar os artigos");
+    });
+}
+
+exports.delete = (req, res) =>{
+    const {id:idDeletado} = req.params;
+    tbArtigos.destroy({where: {id: idDeletado}}).then(function(itemDeletado){
+        res.send("Foi deletado "+ itemDeletado + " artigo")
+    }).catch(function(error){
+        res.status(500).send("Ocorreu um erro ao deletar artigo");
+    });
+}

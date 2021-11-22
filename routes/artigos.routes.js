@@ -7,7 +7,7 @@
     -Obter todos os artigos publicados
 
 
-    POS
+    POST
     -Criar um novo artigo
 
     PUT
@@ -23,11 +23,15 @@ module.exports = (app) =>{
 
     router.post("/", artigosController.create);
     router.get("/", artigosController.findAll);
-    
+
     router.get("/findByTitle", artigosController.findOne);
 
     router.get("/findById/:id", artigosController.findByPk);
-    
+    router.get("/findAllAtivos/", artigosController.findAllAtivos);
+
+    router.put("/:id", artigosController.updateArtigo);
+    router.delete("/", artigosController.deleteAll);
+    router.delete("/:id", artigosController.delete);
 
     app.use("/artigos", router);
 }
